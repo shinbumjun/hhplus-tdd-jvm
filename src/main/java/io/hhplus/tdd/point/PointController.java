@@ -2,6 +2,7 @@ package io.hhplus.tdd.point;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,14 +11,15 @@ import java.util.List;
 @RequestMapping("/point")
 public class PointController {
 
-    private static final Logger log = LoggerFactory.getLogger(PointController.class);
+    @Autowired
+    private PointService pointService;
 
     /**
      * TODO - 특정 유저의 포인트를 조회하는 기능을 작성해주세요.
      */
     @GetMapping("{id}")
     public UserPoint point(@PathVariable long id) {
-        return new UserPoint(0, 0, 0);
+        return pointService.getPoint(id);
     }
 
     /**
@@ -25,7 +27,7 @@ public class PointController {
      */
     @GetMapping("{id}/histories")
     public List<PointHistory> history(@PathVariable long id) {
-        return List.of();
+        return pointService.getHistories(id);
     }
 
     /**
@@ -33,7 +35,7 @@ public class PointController {
      */
     @PatchMapping("{id}/charge")
     public UserPoint charge(@PathVariable long id, @RequestBody long amount) {
-        return new UserPoint(0, 0, 0);
+        return pointService.charge(id, amount);
     }
 
     /**
@@ -41,6 +43,6 @@ public class PointController {
      */
     @PatchMapping("{id}/use")
     public UserPoint use(@PathVariable long id, @RequestBody long amount) {
-        return new UserPoint(0, 0, 0);
+        return pointService.use(id, amount);
     }
 }
